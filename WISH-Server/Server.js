@@ -1,5 +1,5 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
+//const { v4: uuidv4 } = require("uuid");
 const bodyParser = require("body-parser");
 const app = express();
 const port = 4000;
@@ -385,8 +385,55 @@ app.get("/success", async (req, res) => {
 
 // 4. 결제 실패 처리
 app.get("/fail", (req, res) => {
-    payment.status = "failed";
+    const { paymentKey, orderId, amount } = req.query; //req.query
+    payment[orderId].status = "failed";
     res.send("결제가 실패했습니다.");
 });
+const orders = {};
+var orderNumber = 1;
+var nowquary = [];
+var completequary = [];
+const NumtoId = {};
+app.post("/order/add/:id", (req, res) => {
+  const orderId = req.params.id;
+   const order = req.body.map(item => ({
+    Name: item.name,
+    Count: item.count
+  }));
+  orders[orderId] = { order: order, orderNumber: orderNumber};
+  nowquary.push(orderNumber);
+  NumtoId[orderNumber] = orderId;
+  res.json({ orderNumber: orderNumber });
+  orderNumber++;
+});
+
+app.get("/order/get", (req, res) => {
+  let ordering = [];
+  nowquary.forEach(x => {
+    ordering.push(orders[NumtoId[x]]);
+    
+  });
+
+  res.json(ordering);
+});
+
+app.get("/order/get/:id", (req, res) => {
+  const now = req.params.id;
+  res.json(orders[now]);
+});
+/*
+[
+  { "Name": "김치찌개", "Count": 2 },
+  { "Name": "된장찌개", "Count": 3 }
+]
+*/
+
+app.get("/order/complete/:orderN", (req, res) => {
+  let num = req.params.orderN;
+  completequary.push(num);
+  nowquary.delete(num);
+});
+
+//app.delete("/order/del/:id");
 
 app.listen(port, () => console.log(`http://localhost:${port} 으로 샘플 앱이 실행되었습니다.`));
