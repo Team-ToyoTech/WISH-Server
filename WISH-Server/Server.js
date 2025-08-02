@@ -465,7 +465,7 @@ app.get("/order/complete/set/:orderN", (req, res) => {
         nowquary = nowquary.filter((x) => x !== num);
         res.json({ status: "success" });
     } else {
-        res.json({ status: "fail", now: nowquary.includes(num) });
+        res.json({ status: "fail" });
     }
 });
 
