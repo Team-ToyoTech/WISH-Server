@@ -394,12 +394,25 @@ var orderNumber = 1;
 var nowquary = [];
 var completequary = [];
 const NumtoId = {};
+
+function normalizeKeys(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(normalizeKeys);
+  } else if (obj !== null && typeof obj === 'object') {
+    return Object.keys(obj).reduce((acc, key) => {
+      let newKey = key;
+      if (key === 'name') newKey = 'Name';
+      if (key === 'count') newKey = 'Count';
+      acc[newKey] = normalizeKeys(obj[key]);
+      return acc;
+    }, {});
+  }
+  return obj;
+}
+
 app.post("/order/add/:id", (req, res) => {
   const orderId = req.params.id;
-   const order = req.body.map(item => ({
-    Name: item.name,
-    Count: item.count
-  }));
+  const order = normalizeKeys(req.body);
   orders[orderId] = { order: order, orderNumber: orderNumber};
   nowquary.push(orderNumber);
   NumtoId[orderNumber] = orderId;
@@ -428,12 +441,65 @@ app.get("/order/get/:id", (req, res) => {
 ]
 */
 
-app.get("/order/complete/:orderN", (req, res) => {
-  let num = req.params.orderN;
-  completequary.push(num);
-  nowquary.delete(num);
+app.get("/order/complete/set/:orderN", (req, res) => {
+  let num = Number(req.params.orderN);
+  if(nowquary.includes(num))
+  { 
+    completequary.push(num);
+    nowquary = nowquary.filter(x => x !== num);
+    res.json({ status: "success"});
+  }
+  else
+  {
+    res.json({ status: "fail", now: nowquary.includes(num)});
+  }
 });
 
-//app.delete("/order/del/:id");
+app.get("/order/complete/get", (req, res) => {
+  let ordering = [];
+  completequary.forEach(x => {
+    ordering.push(orders[NumtoId[x]]);
+    
+  });
 
-app.listen(port, () => console.log(`http://localhost:${port} 으로 샘플 앱이 실행되었습니다.`));
+  res.json(ordering);
+});
+
+app.get("/order/complete/getid", (req, res) => {
+
+  res.json(completequary);
+});
+
+app.get("/order/getid", (req, res) => {
+
+  res.json(nowquary);
+});
+
+app.get("/order/complete/cancel/:orderN", (req, res) => {
+  let num = req.params.orderN;
+  if(completequary.includes(num))
+  {
+    nowquary.push(num);
+    completequary.delete(num);
+    res.json({ status: "success"});
+  }
+  else
+  {
+    res.json({ status: "fail"});
+  }
+});
+
+app.delete("/order/del/:orderN", (req, res) =>{
+  let num = req.params.orderN;
+  if(completequary.includes(num))
+  {
+    completequary.delete(num);
+    res.json({ status: "success" });
+  }
+  else
+  {
+    res.json({ status: "fail" });
+  }
+});
+
+app.listen(port, () => console.log(`http://localhost:${port} 으로 서버가 실행되었습니다.`));
