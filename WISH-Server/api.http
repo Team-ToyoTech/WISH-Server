@@ -35,5 +35,18 @@ GET http://localhost:4000/order/getid
 ###[GET] order id 불러오기(전체)
 GET http://localhost:4000/order/complete/getid
 
-###[GET] order 추가
+###[GET] complete 추가
 GET http://localhost:4000/order/complete/set/2
+
+###[POST] counter ordering order 추가
+POST http://localhost:4000/pay/counter
+Content-Type: application/json
+
+{
+  "orders":
+  [
+    { "Name": "김치찌개", "Count": 2 },
+    { "Name": "된장찌개", "Count": 3 }
+  ],
+  "amount": 3000
+}

@@ -449,12 +449,13 @@ function removeAmountKey(data) {
 
 app.post("/pay/counter", (req, res) => {
     const orderId = generateRandomString();
-    const order = normalizeKeys(req.body);
-    orders[orderId] = { order: removeAmountKey(order), orderNumber: orderNumber, paid: "NO" };
+    const jsons = normalizeKeys(req.body);
+    const order = removeAmountKey(jsons);
+    orders[orderId] = { order: order.orders, orderNumber: orderNumber, paid: "NO" };
     nowquary.push(orderNumber);
     NumtoId[orderNumber] = orderId;
-    ordersamount[orderId] = { amount: Number(order.amount) };
-    res.json({ orderNumber: orderNumber });
+    ordersamount[orderId] = { amount: Number(jsons.amount) };
+    res.json({ orderNumber: orderNumber, orderId: orderId });
     orderNumber++;
 });
 
