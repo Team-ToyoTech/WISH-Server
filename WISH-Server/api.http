@@ -50,3 +50,10 @@ Content-Type: application/json
   ],
   "amount": 3000
 }
+
+
+###[GET] pay 완료하기
+GET http://localhost:4000/pay/complete/101
+
+###[GET] 가격 확인
+GET http://localhost:4000/pay/amount/101

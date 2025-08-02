@@ -459,6 +459,18 @@ app.post("/pay/counter", (req, res) => {
     orderNumber++;
 });
 
+app.get("/pay/amount/:orderN", (req, res) => {
+    const orderNum = req.params.orderN;
+    if(NumtoId[orderNum] in orders)
+    {
+        res.json({ amount: ordersamount[NumtoId[orderNum]]});
+    }
+    else
+    {
+        res.json({ status: "fail" });
+    }
+});
+
 app.get("/pay/complete/:orderN", (req, res) => {
     const orderNum = req.params.orderN;
     if(NumtoId[orderNum] in orders)
