@@ -452,17 +452,25 @@ app.post("/pay/counter", (req, res) => {
     const jsons = normalizeKeys(req.body);
     const order = removeAmountKey(jsons);
     orders[orderId] = { order: order.orders, orderNumber: orderNumber, paid: "NO" };
-    nowquary.push(orderNumber);
+    
     NumtoId[orderNumber] = orderId;
     ordersamount[orderId] = { amount: Number(jsons.amount) };
     res.json({ orderNumber: orderNumber, orderId: orderId });
     orderNumber++;
 });
 
-app.get("/pay/complete/:id", (req, res) => {
-    const orderId = req.params.id;
-    orders[orderId].paid = "OK";
-    res.json({ status: "success" });
+app.get("/pay/complete/:orderN", (req, res) => {
+    const orderNum = req.params.orderN;
+    if(NumtoId[orderNum] in orders)
+    {
+        nowquary.push(orderNum);
+        orders[NumtoId[orderNum]].paid = "OK";
+        res.json({ status: "success" });
+    }
+    else
+    {
+        res.json({ status: "fail" });
+    }
 });
 
 app.post("/order/add/:id", (req, res) => {
@@ -478,7 +486,10 @@ app.post("/order/add/:id", (req, res) => {
 app.get("/order/get", (req, res) => {
     let ordering = [];
     nowquary.forEach((x) => {
-        ordering.push(orders[NumtoId[x]]);
+        if(orders[NumtoId[x]].paid === "OK")
+        {
+            ordering.push(orders[NumtoId[x]]);
+        }
     });
 
     res.json(ordering);
@@ -509,7 +520,10 @@ app.get("/order/complete/set/:orderN", (req, res) => {
 app.get("/order/complete/get", (req, res) => {
     let ordering = [];
     completequary.forEach((x) => {
-        ordering.push(orders[NumtoId[x]]);
+        if(orders[NumtoId[x]].paid === "OK")
+        {
+            ordering.push(orders[NumtoId[x]]);
+        }
     });
 
     res.json(ordering);
