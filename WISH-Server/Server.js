@@ -452,7 +452,8 @@ app.post("/pay/counter", (req, res) => {
     const jsons = normalizeKeys(req.body);
     const order = removeAmountKey(jsons);
     orders[orderId] = { order: order.orders, orderNumber: orderNumber, paid: "NO" };
-    
+    console.log(jsons);
+    console.log(order);
     NumtoId[orderNumber] = orderId;
     ordersamount[orderId] = Number(jsons.amount);
     res.json({ orderNumber: orderNumber, orderId: orderId });
@@ -473,7 +474,7 @@ app.get("/pay/amount/:orderN", (req, res) => {
 
 app.get("/pay/complete/:orderN", (req, res) => {
     const orderNum = req.params.orderN;
-    if(NumtoId[orderNum] in orders)
+    if(NumtoId[orderNum] in orders  && orders[NumtoId[orderNum]].paid !== "OK")
     {
         nowquary.push(orderNum);
         orders[NumtoId[orderNum]].paid = "OK";
