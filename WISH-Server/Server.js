@@ -412,6 +412,7 @@ var orderNumber = 101;
 var nowquary = [];
 var completequary = [];
 const NumtoId = {};
+const ordersamount = {};
 
 function normalizeKeys(obj) {
     if (Array.isArray(obj)) {
@@ -428,10 +429,45 @@ function normalizeKeys(obj) {
     return obj;
 }
 
+function removeAmountKey(data) {
+  if (Array.isArray(data)) {
+    // 배열일 경우 각 요소를 재귀적으로 처리
+    return data.map(removeAmountKey);
+  } else if (data !== null && typeof data === 'object') {
+    // 객체일 경우 amount 키를 제외한 나머지 복사
+    return Object.keys(data).reduce((acc, key) => {
+      if (key !== 'amount') {
+        acc[key] = removeAmountKey(data[key]);
+      }
+      return acc;
+    }, {});
+  }
+  // 기본형(숫자, 문자열 등)은 그대로 반환
+  return data;
+}
+
+
+app.post("/pay/counter", (req, res) => {
+    const orderId = generateRandomString();
+    const order = normalizeKeys(req.body);
+    orders[orderId] = { order: removeAmountKey(order), orderNumber: orderNumber, paid: "NO" };
+    nowquary.push(orderNumber);
+    NumtoId[orderNumber] = orderId;
+    ordersamount[orderId] = { amount: Number(order.amount) };
+    res.json({ orderNumber: orderNumber });
+    orderNumber++;
+});
+
+app.get("/pay/complete/:id", (req, res) => {
+    const orderId = req.params.id;
+    orders[orderId].paid = "OK";
+    res.json({ status: "success" });
+});
+
 app.post("/order/add/:id", (req, res) => {
     const orderId = req.params.id;
     const order = normalizeKeys(req.body);
-    orders[orderId] = { order: order, orderNumber: orderNumber };
+    orders[orderId] = { order: order, orderNumber: orderNumber, paid: "OK" };
     nowquary.push(orderNumber);
     NumtoId[orderNumber] = orderId;
     res.json({ orderNumber: orderNumber });
