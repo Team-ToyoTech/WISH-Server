@@ -454,7 +454,7 @@ app.post("/pay/counter", (req, res) => {
     orders[orderId] = { order: order.orders, orderNumber: orderNumber, paid: "NO" };
     
     NumtoId[orderNumber] = orderId;
-    ordersamount[orderId] = { amount: Number(jsons.amount) };
+    ordersamount[orderId] = Number(jsons.amount);
     res.json({ orderNumber: orderNumber, orderId: orderId });
     orderNumber++;
 });
