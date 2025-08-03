@@ -390,7 +390,101 @@ app.get("/success", async (req, res) => {
         if (!response.ok) {
             // TODO: 결제 승인 실패 비즈니스 로직을 구현하세요.
             payment.status = "failed";
-            res.send("결제가 실패했습니다.");
+            res.send(`
+            <!DOCTYPE html>
+            <html lang="ko">
+                <head>
+                    <meta charset="UTF-8" />
+                    <title>결제 실패</title>
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                        }
+                        
+                        body {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            min-height: 100vh;
+                            background-color: #f8f0f0;
+                            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                            color: #333;
+                        }
+                        
+                        .container {
+                            background-color: #fff;
+                            padding: 40px 60px;
+                            border-radius: 8px;
+                            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+                            text-align: center;
+                            max-width: 400px;
+                            width: 100%;
+                        }
+                        
+                        .icon {
+                            margin-bottom: 20px;
+                            display: flex;
+                            justify-content: center; /* 수평 중앙 정렬 */
+                        }
+                        
+                        .icon svg {
+                            width: 80px;
+                            height: 80px;
+                        }
+                        
+                        h1 {
+                            font-size: 24px;
+                            margin-bottom: 12px;
+                        }
+                        
+                        p {
+                            font-size: 16px;
+                            margin-bottom: 24px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="icon">
+                            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <!-- 배경 원 -->
+                                <circle
+                                    cx="24"
+                                    cy="24"
+                                    r="22"
+                                    fill="none"
+                                    stroke="#e74c3c"
+                                    stroke-width="4"
+                                />
+                                <!-- X 표시 -->
+                                <line
+                                    x1="16"
+                                    y1="16"
+                                    x2="32"
+                                    y2="32"
+                                    stroke="#e74c3c"
+                                    stroke-width="4"
+                                    stroke-linecap="round"
+                                />
+                                <line
+                                    x1="16"
+                                    y1="32"
+                                    x2="32"
+                                    y2="16"
+                                    stroke="#e74c3c"
+                                    stroke-width="4"
+                                    stroke-linecap="round"
+                                />
+                            </svg>
+                        </div>
+                        <h1>결제에 실패했습니다</h1>
+                        <p>결제 처리 중 오류가 발생했습니다.<br />다시 시도해 주세요.</p>
+                    </div>
+                </body>
+            </html>
+            `);
             return;
         }
         //TODO: 결제 완료시 뜨는 화면 구축하기
@@ -478,7 +572,7 @@ app.get("/fail", (req, res) => {
         <html lang="ko">
             <head>
                 <meta charset="UTF-8" />
-                <title>결제 완료</title>
+                <title>결제 실패</title>
                 <style>
                     * {
                         margin: 0;
@@ -491,7 +585,7 @@ app.get("/fail", (req, res) => {
                         align-items: center;
                         justify-content: center;
                         min-height: 100vh;
-                        background-color: #f0f0f5;
+                        background-color: #f8f0f0;
                         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
                         color: #333;
                     }
@@ -508,12 +602,13 @@ app.get("/fail", (req, res) => {
 
                     .icon {
                         margin-bottom: 20px;
+                        display: flex;
+                        justify-content: center; /* 수평 중앙 정렬 */
                     }
 
                     .icon svg {
                         width: 80px;
                         height: 80px;
-                        display: inline-block;
                     }
 
                     h1 {
@@ -530,19 +625,39 @@ app.get("/fail", (req, res) => {
             <body>
                 <div class="container">
                     <div class="icon">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="#ff3d3d"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <circle cx="12" cy="12" r="10" opacity="0.2" />
-                            <path
-                                d="M10 14.586l-2.293-2.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l6-6a1 1 0 10-1.414-1.414L10 14.586z"
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 배경 원 -->
+                            <circle
+                                cx="24"
+                                cy="24"
+                                r="22"
+                                fill="none"
+                                stroke="#e74c3c"
+                                stroke-width="4"
+                            />
+                            <!-- X 표시 -->
+                            <line
+                                x1="16"
+                                y1="16"
+                                x2="32"
+                                y2="32"
+                                stroke="#e74c3c"
+                                stroke-width="4"
+                                stroke-linecap="round"
+                            />
+                            <line
+                                x1="16"
+                                y1="32"
+                                x2="32"
+                                y2="16"
+                                stroke="#e74c3c"
+                                stroke-width="4"
+                                stroke-linecap="round"
                             />
                         </svg>
                     </div>
-                    <h1>결제가 완료되지 못 했습니다.</h1>
-                    <p>다시 시도해 주십시오.</p>
+                    <h1>결제에 실패했습니다</h1>
+                    <p>결제 처리 중 오류가 발생했습니다.<br />다시 시도해 주세요.</p>
                 </div>
             </body>
         </html>
