@@ -552,7 +552,7 @@ app.get("/order/complete/cancel/:orderN", (req, res) => {
     let num = Number(req.params.orderN);
     if (completequary.includes(num)) {
         nowquary.push(num);
-        completequary.delete(num);
+        completequary = completequary.filter((x) => x !== num);
         res.json({ status: "success" });
     } else {
         res.json({ status: "fail" });
@@ -562,7 +562,7 @@ app.get("/order/complete/cancel/:orderN", (req, res) => {
 app.delete("/order/del/:orderN", (req, res) => {
     let num = req.params.orderN;
     if (completequary.includes(num)) {
-        completequary.delete(num);
+        completequary = completequary.filter((x) => x !== num);
         res.json({ status: "success" });
     } else {
         res.json({ status: "fail" });
