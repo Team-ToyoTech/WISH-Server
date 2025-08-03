@@ -474,7 +474,7 @@ app.get("/pay/complete/:orderN", (req, res) => {
     const orderNum = req.params.orderN;
     if(NumtoId[orderNum] in orders  && orders[NumtoId[orderNum]].paid !== "OK")
     {
-        nowquary.push(orderNum);
+        nowquary.push(Number(orderNum));
         orders[NumtoId[orderNum]].paid = "OK";
         res.json({ status: "success" });
     }
