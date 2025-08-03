@@ -560,7 +560,7 @@ app.get("/order/complete/cancel/:orderN", (req, res) => {
 });
 
 app.delete("/order/del/:orderN", (req, res) => {
-    let num = req.params.orderN;
+    let num = Number(req.params.orderN);
     if (completequary.includes(num)) {
         completequary = completequary.filter((x) => x !== num);
         res.json({ status: "success" });
