@@ -1,3 +1,4 @@
+###[POST] pay 추가
 POST http://localhost:4000/pay
 Content-Type: application/json
 
@@ -5,8 +6,9 @@ Content-Type: application/json
   "amount": 100
 }
 
+
 ###[POST] order 추가
-POST http://localhost:4000/order/add/1324
+POST http://localhost:4000/order/add/1326
 Content-Type: application/json
 
 [
@@ -16,7 +18,7 @@ Content-Type: application/json
 
 
 ###[POST] order 추가
-POST http://localhost:4000/order/add/1234
+POST http://localhost:4000/order/add/1235
 Content-Type: application/json
 
 [
@@ -24,21 +26,24 @@ Content-Type: application/json
   { "Name": "된장찌개", "Count": 3 }
 ]
 
-###[GET] order 불러오기
+
+###[GET] order 불러오기 (주문 번호)
 GET http://localhost:4000/order/get/1324
-###[GET] order complete하기
-GET http://localhost:4000/order/complete/set/101
-###[GET] order 불러오기(전체)
+
+###[GET] order complete하기 (주문 번호)
+GET http://localhost:4000/order/complete/set/102
+
+###[GET] order 불러오기 (전체)
 GET http://localhost:4000/order/get
 
-###[GET] order id 불러오기(전체)
+###[GET] order id 불러오기 (전체)
 GET http://localhost:4000/order/getid
 
-###[GET] order id 불러오기(전체)
+###[GET] complete order id 불러오기 (전체)
 GET http://localhost:4000/order/complete/getid
 
-###[GET] complete 추가
-GET http://localhost:4000/order/complete/set/2
+###[GET] complete 추가 (주문 번호)
+GET http://localhost:4000/order/complete/set/101
 
 ###[POST] counter ordering order 추가
 POST http://localhost:4000/pay/counter
@@ -54,8 +59,8 @@ Content-Type: application/json
 }
 
 
-###[GET] pay 완료하기
+###[GET] pay 완료하기 (주문 번호)
 GET http://localhost:4000/pay/complete/101
 
-###[GET] 가격 확인
+###[GET] 가격 확인 (주문 번호)
 GET http://localhost:4000/pay/amount/101
