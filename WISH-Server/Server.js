@@ -452,11 +452,9 @@ app.post("/pay/counter", (req, res) => {
     const jsons = normalizeKeys(req.body);
     const order = removeAmountKey(jsons);
     orders[orderId] = { order: order.orders, orderNumber: orderNumber, paid: "NO" };
-    console.log(jsons);
-    console.log(order);
     NumtoId[orderNumber] = orderId;
     ordersamount[orderId] = Number(jsons.amount);
-    res.json({ orderNumber: orderNumber, orderId: orderId });
+    res.json({ orderNumber: Number(orderNumber), orderId: orderId });
     orderNumber++;
 });
 
@@ -489,10 +487,10 @@ app.get("/pay/complete/:orderN", (req, res) => {
 app.post("/order/add/:id", (req, res) => {
     const orderId = req.params.id;
     const order = normalizeKeys(req.body);
-    orders[orderId] = { order: order, orderNumber: orderNumber, paid: "OK" };
-    nowquary.push(orderNumber);
+    orders[orderId] = { order: order, orderNumber: Number(orderNumber), paid: "OK" };
+    nowquary.push(Number(orderNumber));
     NumtoId[orderNumber] = orderId;
-    res.json({ orderNumber: orderNumber });
+    res.json({ orderNumber: Number(orderNumber) });
     orderNumber++;
 });
 

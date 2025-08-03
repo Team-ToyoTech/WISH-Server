@@ -26,6 +26,8 @@ Content-Type: application/json
 
 ###[GET] order 불러오기
 GET http://localhost:4000/order/get/1324
+###[GET] order complete하기
+GET http://localhost:4000/order/complete/set/101
 ###[GET] order 불러오기(전체)
 GET http://localhost:4000/order/get
 
