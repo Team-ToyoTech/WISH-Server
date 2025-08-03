@@ -397,7 +397,75 @@ app.get("/success", async (req, res) => {
         //res.send("결제가 성공했습니다.");
         payment.status = "paid";
         // TODO: 결제 완료 비즈니스 로직을 구현하세요.
-        res.status(response.status).json(result);
+        res.status(response.status).send(`
+            <!DOCTYPE html>
+            <html lang="ko">
+            <head>
+              <meta charset="UTF-8">
+              <title>결제 완료</title>
+              <style>
+                * {
+                  margin: 0;
+                  padding: 0;
+                  box-sizing: border-box;
+                }
+                    
+                body {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  min-height: 100vh;
+                  background-color: #f0f0f5;
+                  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                  color: #333;
+                }
+                    
+                .container {
+                  background-color: #fff;
+                  padding: 40px 60px;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+                  text-align: center;
+                  max-width: 400px;
+                  width: 100%;
+                }
+                    
+                .icon {
+                  margin-bottom: 20px;
+                }
+                    
+                .icon svg {
+                  width: 80px;
+                  height: 80px;
+                  display: inline-block;
+                }
+                    
+                h1 {
+                  font-size: 24px;
+                  margin-bottom: 12px;
+                }
+                    
+                p {
+                  font-size: 16px;
+                  margin-bottom: 24px;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="icon">
+                  <!-- 녹색 체크 아이콘 -->
+                  <svg viewBox="0 0 24 24" fill="#4CAF50" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" opacity="0.2"/>
+                    <path d="M10 14.586l-2.293-2.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l6-6a1 1 0 10-1.414-1.414L10 14.586z"/>
+                  </svg>
+                </div>
+                <h1>결제가 성공적으로 완료되었습니다!</h1>
+                <p>주문해 주셔서 감사합니다.</p>
+              </div>
+            </body>
+            </html>
+            `);
     });
 });
 
@@ -405,7 +473,80 @@ app.get("/success", async (req, res) => {
 app.get("/fail", (req, res) => {
     const { paymentKey, orderId, amount } = req.query; //req.query
     payment[orderId].status = "failed";
-    res.send("결제가 실패했습니다.");
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="ko">
+            <head>
+                <meta charset="UTF-8" />
+                <title>결제 완료</title>
+                <style>
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }
+
+                    body {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        min-height: 100vh;
+                        background-color: #f0f0f5;
+                        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                        color: #333;
+                    }
+
+                    .container {
+                        background-color: #fff;
+                        padding: 40px 60px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+                        text-align: center;
+                        max-width: 400px;
+                        width: 100%;
+                    }
+
+                    .icon {
+                        margin-bottom: 20px;
+                    }
+
+                    .icon svg {
+                        width: 80px;
+                        height: 80px;
+                        display: inline-block;
+                    }
+
+                    h1 {
+                        font-size: 24px;
+                        margin-bottom: 12px;
+                    }
+
+                    p {
+                        font-size: 16px;
+                        margin-bottom: 24px;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="icon">
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="#ff3d3d"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle cx="12" cy="12" r="10" opacity="0.2" />
+                            <path
+                                d="M10 14.586l-2.293-2.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l6-6a1 1 0 10-1.414-1.414L10 14.586z"
+                            />
+                        </svg>
+                    </div>
+                    <h1>결제가 완료되지 못 했습니다.</h1>
+                    <p>다시 시도해 주십시오.</p>
+                </div>
+            </body>
+        </html>
+        `);
 });
 const orders = {};
 var orderNumber = 101;
