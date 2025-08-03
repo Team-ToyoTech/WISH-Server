@@ -549,7 +549,7 @@ app.get("/order/getid", (req, res) => {
 });
 
 app.get("/order/complete/cancel/:orderN", (req, res) => {
-    let num = req.params.orderN;
+    let num = Number(req.params.orderN);
     if (completequary.includes(num)) {
         nowquary.push(num);
         completequary.delete(num);
