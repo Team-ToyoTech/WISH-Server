@@ -686,28 +686,31 @@ function normalizeKeys(obj) {
 }
 
 function removeAmountKey(data) {
-  if (Array.isArray(data)) {
-    // 배열일 경우 각 요소를 재귀적으로 처리
-    return data.map(removeAmountKey);
-  } else if (data !== null && typeof data === 'object') {
-    // 객체일 경우 amount 키를 제외한 나머지 복사
-    return Object.keys(data).reduce((acc, key) => {
-      if (key !== 'amount') {
-        acc[key] = removeAmountKey(data[key]);
-      }
-      return acc;
-    }, {});
-  }
-  // 기본형(숫자, 문자열 등)은 그대로 반환
-  return data;
+    if (Array.isArray(data)) {
+        // 배열일 경우 각 요소를 재귀적으로 처리
+        return data.map(removeAmountKey);
+    } else if (data !== null && typeof data === "object") {
+        // 객체일 경우 amount 키를 제외한 나머지 복사
+        return Object.keys(data).reduce((acc, key) => {
+            if (key !== "amount") {
+                acc[key] = removeAmountKey(data[key]);
+            }
+            return acc;
+        }, {});
+    }
+    // 기본형(숫자, 문자열 등)은 그대로 반환
+    return data;
 }
-
 
 app.post("/pay/counter", (req, res) => {
     const orderId = generateRandomString();
     const jsons = normalizeKeys(req.body);
     const order = removeAmountKey(jsons);
-    orders[orderId] = { order: order.orders, orderNumber: orderNumber, paid: "NO" };
+    orders[orderId] = {
+        order: order.orders,
+        orderNumber: orderNumber,
+        paid: "NO",
+    };
     NumtoId[orderNumber] = orderId;
     ordersamount[orderId] = Number(jsons.amount);
     res.json({ orderNumber: Number(orderNumber), orderId: orderId });
@@ -716,26 +719,23 @@ app.post("/pay/counter", (req, res) => {
 
 app.get("/pay/amount/:orderN", (req, res) => {
     const orderNum = req.params.orderN;
-    if(NumtoId[orderNum] in orders)
-    {
-        res.json({ amount: ordersamount[NumtoId[orderNum]]});
-    }
-    else
-    {
+    if (NumtoId[orderNum] in orders) {
+        res.json({ amount: ordersamount[NumtoId[orderNum]] });
+    } else {
         res.json({ status: "fail" });
     }
 });
 
 app.get("/pay/complete/:orderN", (req, res) => {
     const orderNum = req.params.orderN;
-    if(NumtoId[orderNum] in orders  && orders[NumtoId[orderNum]].paid !== "OK")
-    {
+    if (
+        NumtoId[orderNum] in orders &&
+        orders[NumtoId[orderNum]].paid !== "OK"
+    ) {
         nowquary.push(Number(orderNum));
         orders[NumtoId[orderNum]].paid = "OK";
         res.json({ status: "success" });
-    }
-    else
-    {
+    } else {
         res.json({ status: "fail" });
     }
 });
@@ -743,7 +743,11 @@ app.get("/pay/complete/:orderN", (req, res) => {
 app.post("/order/add/:id", (req, res) => {
     const orderId = req.params.id;
     const order = normalizeKeys(req.body);
-    orders[orderId] = { order: order, orderNumber: Number(orderNumber), paid: "OK" };
+    orders[orderId] = {
+        order: order,
+        orderNumber: Number(orderNumber),
+        paid: "OK",
+    };
     nowquary.push(Number(orderNumber));
     NumtoId[orderNumber] = orderId;
     res.json({ orderNumber: Number(orderNumber) });
@@ -753,8 +757,7 @@ app.post("/order/add/:id", (req, res) => {
 app.get("/order/get", (req, res) => {
     let ordering = [];
     nowquary.forEach((x) => {
-        if(orders[NumtoId[x]].paid === "OK")
-        {
+        if (orders[NumtoId[x]].paid === "OK") {
             ordering.push(orders[NumtoId[x]]);
         }
     });
@@ -787,8 +790,7 @@ app.get("/order/complete/set/:orderN", (req, res) => {
 app.get("/order/complete/get", (req, res) => {
     let ordering = [];
     completequary.forEach((x) => {
-        if(orders[NumtoId[x]].paid === "OK")
-        {
+        if (orders[NumtoId[x]].paid === "OK") {
             ordering.push(orders[NumtoId[x]]);
         }
     });
