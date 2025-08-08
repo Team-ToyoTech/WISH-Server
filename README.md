@@ -7,15 +7,15 @@
 - Using [Toss Payments (Express 예제 기반)](https://github.com/tosspayments/tosspayments-sample/tree/main/express-javascript)
 - `npm install express` 와 `npm install body-parser` 가 필요합니다.  
 
-## Features
+## ✨ 주요 기능
 - 결제 세션 생성 및 승인 콜백 처리
 - 주문 큐(대기) / 완료 큐 관리
 - DID(Display)/수신(Receive) 앱에서 폴링하는 간단 REST API
 
-## Requirements
+## 권장 사양
 - Node.js 18+
 
-## Quick Start
+## 🚀 빠른 시작
 ```bash
 git clone https://github.com/Team-ToyoTech/WISH-Server.git
 cd WISH-Server
