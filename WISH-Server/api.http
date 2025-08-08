@@ -60,7 +60,10 @@ Content-Type: application/json
 
 
 ###[GET] pay 완료하기 (주문 번호)
-GET http://localhost:4000/pay/complete/102
+GET http://localhost:4000/pay/complete/103
 
 ###[GET] 가격 확인 (주문 번호)
 GET http://localhost:4000/pay/amount/101
+
+###[GET] 리셋
+GET http://localhost:4000/reset

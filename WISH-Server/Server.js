@@ -249,7 +249,7 @@ function generateRandomString() {
 }
 
 // 결제 정보 저장소 (테스트용 메모리 저장)
-const payments = {};
+var payments = {};
 
 // 1. 결제 요청 처리
 app.post("/pay", (req, res) => {
@@ -663,12 +663,22 @@ app.get("/fail", (req, res) => {
         </html>
         `);
 });
-const orders = {};
+var orders = {};
 var orderNumber = 101;
 var nowquary = [];
 var completequary = [];
-const NumtoId = {};
-const ordersamount = {};
+var NumtoId = {};
+var ordersamount = {};
+
+app.get('/reset', (req, res) => {
+    payments = {};
+    orders = {};
+    orderNumber = 101;
+    nowquary = [];
+    completequary = [];
+    NumtoId = {};
+    ordersamount = {};
+});
 
 function normalizeKeys(obj) {
     if (Array.isArray(obj)) {
