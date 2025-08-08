@@ -678,7 +678,7 @@ app.get('/reset', (req, res) => {
     completequary = [];
     NumtoId = {};
     ordersamount = {};
-    res.send("reset Success");
+    res.json({ status: "Success" });
 });
 
 function normalizeKeys(obj) {
