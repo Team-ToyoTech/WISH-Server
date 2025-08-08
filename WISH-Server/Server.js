@@ -2,7 +2,7 @@ const express = require("express");
 //const { v4: uuidv4 } = require("uuid");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 4000;
+const port = 80;
 
 app.use(express.static("public"));
 app.use(express.json());
