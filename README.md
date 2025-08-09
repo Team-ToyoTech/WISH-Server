@@ -4,6 +4,8 @@
 > 
 > 토스페이먼츠 결제 연동 + 주문 큐 관리(API)
 
+자세한 내용은 [`wish.docs.toyotech.dev`](https://wish.docs.toyotech.dev/)를 참고해 주세요.
+
 - Using [Toss Payments (Express 예제 기반)](https://github.com/tosspayments/tosspayments-sample/tree/main/express-javascript)
 
 ## ✨ 주요 기능
