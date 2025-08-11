@@ -23,3 +23,4 @@ git clone https://github.com/Team-ToyoTech/WISH-Server.git
 cd WISH-Server
 npm install
 node Server.js
+```
